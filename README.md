@@ -43,25 +43,65 @@ The wiring illustration below shows the overall power and signal connections use
   <img src="images/wiring-diagram.jpg" alt="Wiring diagram for ESP32-C3 digital spirit level" width="900">
 </p>
 
-### Signal pin assignment
+### Complete ESP32-C3 pinout
 
-The table below reflects the GPIO assignments in the included Arduino sketch.
+The following tables show every connection between the ESP32-C3 SuperMini and the display, MPU-6050 sensor and push button.
 
-| Module | Signal | ESP32-C3 GPIO |
-|---|---|---:|
-| MPU-6050 | SDA | GPIO 0 |
-| MPU-6050 | SCL | GPIO 1 |
-| ST7789 display | SCLK / SCL | GPIO 4 |
-| ST7789 display | MOSI / SDA | GPIO 6 |
-| ST7789 display | CS | GPIO 7 |
-| ST7789 display | DC | GPIO 3 |
-| ST7789 display | RES / RST | GPIO 10 |
-| Push button | One terminal | GPIO 5 |
-| Push button | Other terminal | GND |
+#### 1. ST7789 TFT display (1.9-inch, 170 × 320)
 
-The button uses the ESP32-C3 internal pull-up (`INPUT_PULLUP`), so no external pull-up resistor is required.
+| Display pin label | Function | ESP32-C3 connection |
+|---|---|---|
+| GND | Ground | GND |
+| VCC | Power | 3.3V |
+| SCL | SPI clock (SCK) | GPIO 4 |
+| SDA | SPI data (MOSI) | GPIO 6 |
+| RES | Display reset | GPIO 10 |
+| DC | Data / command | GPIO 3 |
+| CS | Chip select | GPIO 7 |
+| BLK | Backlight | 3.3V |
 
-**Power note:** follow the module labels and the wiring diagram when assembling the battery, charger and boost-converter section. Check the output voltage and polarity with a multimeter before connecting the controller, sensor or display. Do not connect a Li-ion cell directly to a 5 V input.
+**Display interface:** SPI. The display's `SCL` pin is the SPI clock, and its `SDA` pin is MOSI. MISO is not used by this display connection.
+
+#### 2. MPU-6050 sensor (GY-521 module)
+
+| MPU-6050 pin | Function | ESP32-C3 connection |
+|---|---|---|
+| VCC | Power | 3.3V |
+| GND | Ground | GND |
+| SDA | I²C data | GPIO 0 |
+| SCL | I²C clock | GPIO 1 |
+| AD0 | I²C address select | Leave as configured on the module (default address: `0x68`) |
+| INT | Interrupt output | Not connected |
+| XDA | Auxiliary I²C data | Not connected |
+| XCL | Auxiliary I²C clock | Not connected |
+
+**Sensor interface:** I²C, using address `0x68`.
+
+#### 3. Tactile push button
+
+| Button connection | ESP32-C3 connection |
+|---|---|
+| One terminal | GPIO 5 |
+| Opposite terminal | GND |
+
+The firmware configures GPIO 5 as `INPUT_PULLUP`. No external pull-up resistor is needed. Use a normally-open momentary push button.
+
+#### ESP32-C3 GPIO summary
+
+| ESP32-C3 pin | Connected device | Signal |
+|---|---|---|
+| GPIO 0 | MPU-6050 | SDA |
+| GPIO 1 | MPU-6050 | SCL |
+| GPIO 3 | ST7789 | DC |
+| GPIO 4 | ST7789 | SPI SCLK |
+| GPIO 5 | Push button | Button input |
+| GPIO 6 | ST7789 | SPI MOSI |
+| GPIO 7 | ST7789 | CS |
+| GPIO 10 | ST7789 | RES / RST |
+| 3.3V | Display and MPU-6050 | Power |
+| GND | Display, MPU-6050 and button | Common ground |
+
+**Important:** connect all grounds together. Power the display and MPU-6050 from the 3.3 V rail as shown. Check the exact pin labels on your modules before wiring; do not assume the physical pin order is identical between different ESP32-C3 SuperMini board revisions.
 
 ## How to use
 
