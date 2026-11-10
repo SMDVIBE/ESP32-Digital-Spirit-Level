@@ -70,7 +70,7 @@ The following tables show every connection between the ESP32-C3 SuperMini and th
 | GND | Ground | GND |
 | SDA | I²C data | GPIO 0 |
 | SCL | I²C clock | GPIO 1 |
-| AD0 | I²C address select | Leave as configured on the module (default address: `0x68`) |
+| AD0 | I²C address select | Not connected |
 | INT | Interrupt output | Not connected |
 | XDA | Auxiliary I²C data | Not connected |
 | XCL | Auxiliary I²C clock | Not connected |
