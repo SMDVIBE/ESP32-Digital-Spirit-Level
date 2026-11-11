@@ -38,6 +38,8 @@ The device measures inclination and visualizes it as a moving bubble. It support
 ## Wiring
 
 The wiring illustration below shows the overall power and signal connections used in the build.
+🔹 Wiring Diagram (Cirkit Designer):
+https://app.cirkitdesigner.com/project/e3083c5d-43cd-47ec-96ea-0514f1b6350c
 
 <p align="center">
   <img src="images/wiring-diagram.jpg" alt="Wiring diagram for ESP32-C3 digital spirit level" width="900">
